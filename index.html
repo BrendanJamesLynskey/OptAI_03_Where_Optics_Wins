@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optical Technology for AI Processing 03 — Where Optics Could Win, and the Limits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Geist+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #1c1815;
+            --bg-card: #231e1a;
+            --bg-code: #2b2520;
+            --text-primary: #efe8dc;
+            --text-secondary: #a2978b;
+            --accent: #aabd59;
+            --accent-dim: #aabd5944;
+            --accent-glow: #aabd5933;
+            --border: #3a322b;
+            --font-display: 'Bricolage Grotesque', sans-serif;
+            --font-mono: 'Geist Mono', 'Geist Mono', monospace;
+            --font-body: 'Instrument Sans', sans-serif;
+            --max-width: 900px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 17px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── Header ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .series-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .accent {
+            color: var(--accent);
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* ── Tag Pills ── */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+            white-space: nowrap;
+        }
+
+        /* ── Pipeline Flow Bar ── */
+        .pipeline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+            max-width: var(--max-width);
+        }
+
+        .pipeline-step {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.3rem 0.7rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .pipeline-arrow {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* ── Slides ── */
+        .slide {
+            min-height: 100vh;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-number {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent-dim);
+            position: absolute;
+            top: 2rem;
+            right: 1.5rem;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .slide h2 {
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            line-height: 1.25;
+        }
+
+        .slide h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .slide p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .slide p strong {
+            color: var(--text-primary);
+        }
+
+        .slide ul, .slide ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .slide li {
+            margin-bottom: 0.4rem;
+        }
+
+        .slide li strong {
+            color: var(--text-primary);
+        }
+
+        /* ── Code Blocks ── */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(170,189,89,0.08);
+            padding: 0.4rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #dad1c5;
+        }
+
+        /* Syntax highlighting (manual) */
+        .kw { color: #de805a; }
+        .fn { color: #d7bbdf; }
+        .str { color: #bcdbd4; }
+        .cm { color: #a2978b; font-style: italic; }
+        .num { color: #97cdc6; }
+        .type { color: #e3b174; }
+        .dir { color: #de805a; }
+        .mac { color: #e3b174; }
+
+        /* ── Tables ── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--bg-code);
+            color: var(--accent);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-display);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) td {
+            background: rgba(35,30,26,0.5);
+        }
+
+        /* ── Diagrams ── */
+        .diagram-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .diagram-box {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .diagram-box.accent {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(170,189,89,0.08);
+        }
+
+        .diagram-box.dim {
+            color: var(--text-secondary);
+            border-color: var(--border);
+        }
+
+        .diagram-arrow {
+            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* Vertical flow diagrams */
+        .diagram-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .diagram-vertical .diagram-arrow {
+            font-size: 1.1rem;
+        }
+
+        /* Nested hierarchy diagram */
+        .hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .hierarchy-level {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hierarchy-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .hierarchy-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .hierarchy-item {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .hierarchy-item.accent {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(170,189,89,0.08);
+        }
+
+        /* Grid diagram */
+        .diagram-grid {
+            display: grid;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .diagram-grid.cols-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .diagram-grid.cols-3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .diagram-panel {
+            padding: 1rem;
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .diagram-panel.accent-border {
+            border-left: 3px solid var(--accent);
+        }
+
+        .diagram-panel h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .diagram-panel p, .diagram-panel ul {
+            font-size: 0.85rem;
+        }
+
+        /* ── Callout Boxes ── */
+        .callout {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        .callout .callout-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        /* ── Tier Visual ── */
+        .tier-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .tier-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tier-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .tier-fill {
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            transition: width 0.6s ease;
+        }
+
+        .tier-cost {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 70px;
+        }
+
+        /* ── Contents list ── */
+        .contents-list {
+            list-style: none;
+            padding-left: 0;
+            counter-reset: contents;
+        }
+
+        .contents-list li {
+            counter-increment: contents;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contents-list li:last-child {
+            border-bottom: none;
+        }
+
+        .contents-list li::before {
+            content: counter(contents, decimal-leading-zero);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            min-width: 2rem;
+        }
+
+        .contents-list a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contents-list a:hover {
+            color: var(--accent);
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .slide {
+                padding: 3rem 1rem;
+                min-height: auto;
+            }
+
+            .slide-number {
+                font-size: 3rem;
+                top: 1.5rem;
+                right: 1rem;
+            }
+
+            .slide h2 {
+                font-size: 1.5rem;
+            }
+
+            .diagram-grid.cols-2,
+            .diagram-grid.cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                gap: 0.15rem;
+            }
+
+            .pipeline-step {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.4rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                font-size: 0.78rem;
+            }
+
+            .tier-label {
+                min-width: 60px;
+                font-size: 0.65rem;
+            }
+
+            .tier-fill {
+                font-size: 0.6rem;
+                height: 26px;
+            }
+        }
+
+        /* ── Interactive controls (added for Local LLM series) ── */
+        .control-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+        }
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .control-row label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 180px;
+        }
+        .control-row input[type="range"] {
+            flex: 1;
+            min-width: 160px;
+            accent-color: var(--accent);
+        }
+        .control-row input[type="number"],
+        .control-row select {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 4px;
+            padding: 0.3rem 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+        .control-row .val {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            min-width: 80px;
+            text-align: right;
+        }
+        .btn {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            padding: 0.4rem 0.9rem;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .btn:hover { background: rgba(170,189,89,0.2); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn.secondary {
+            background: var(--bg-code);
+            color: var(--text-secondary);
+            border-color: var(--border);
+        }
+        .result-box {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            margin-top: 0.75rem;
+        }
+        .result-box .line-label { color: var(--text-secondary); }
+        .result-box .line-val   { color: var(--accent); font-weight: 600; }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .metric {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.8rem;
+            text-align: center;
+        }
+        .metric .metric-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .metric .metric-value {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        /* Canvas / SVG containers */
+        .canvas-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.25rem 0;
+            overflow-x: auto;
+        }
+        .canvas-wrap canvas,
+        .canvas-wrap svg {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        /* Small inline badge */
+        .badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            vertical-align: middle;
+            margin-left: 0.3rem;
+        }
+        .badge.ok    { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+        .badge.warn  { border-color: #e3b174; color: #e3b174; background: rgba(227,177,116,0.08); }
+        .badge.bad   { border-color: #de805a; color: #de805a; background: rgba(222,128,90,0.08); }
+
+
+        /* ── LLM Inference Simulators additions ── */
+        .canvas-wrap canvas { image-rendering: auto; display: block; width: 100%; height: auto; }
+        .canvas-wrap svg { max-width: 100%; height: auto; }
+        .ladder { display: grid; gap: 0.4rem; margin: 1.25rem 0; }
+        .ladder-row {
+            display: grid; grid-template-columns: 11rem 1fr 7.5rem; gap: 0.75rem; align-items: center;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+            padding: 0.55rem 0.85rem; font-size: 0.88rem;
+        }
+        .ladder-row .rung { font-family: var(--font-display); font-weight: 600; color: var(--accent); }
+        .ladder-row .speed { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-secondary); text-align: right; }
+        .res-list { list-style: none; padding: 0; margin: 0.75rem 0; }
+        .res-list li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+        .res-list li:last-child { border-bottom: none; }
+        .res-list .what { color: var(--text-secondary); display: block; font-size: 0.86rem; margin-top: 0.15rem; }
+        .res-list a { color: var(--accent); text-decoration: none; }
+        .res-list a:hover { text-decoration: underline; }
+        .qa { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin: 0.6rem 0; padding: 0.2rem 1rem; }
+        .qa summary { cursor: pointer; padding: 0.6rem 0; font-weight: 600; }
+        .qa p, .qa ul { margin-bottom: 0.75rem; font-size: 0.92rem; }
+        .sim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.4rem 1.25rem; }
+        .chart-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+        .chart-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.3rem; }
+        .slide a { color: var(--accent); }
+        @media (max-width: 640px) {
+            .ladder-row { grid-template-columns: 1fr; gap: 0.2rem; }
+            .ladder-row .speed { text-align: left; }
+        }
+        .concepts { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; padding: 0.75rem 1rem; margin-top: 1.25rem; font-size: 0.88rem; }
+        .concepts p { margin: 0 0 0.4rem; color: var(--text-secondary); }
+        .concepts .chips { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+        .concepts .chips a { border: 1px solid var(--border); border-radius: 999px; padding: 0.1rem 0.6rem; text-decoration: none; font-size: 0.82rem; }
+        .concepts .chips a:hover { border-color: var(--accent); }
+        .hero { overflow: hidden; }   /* the 600px glow must not widen the page on phones */
+        .chart-pair > *, .diagram-grid > *, .sim-grid > * { min-width: 0; }   /* let wide code scroll inside its column */
+        .slide p code, .slide li code, .slide td code { overflow-wrap: anywhere; }
+        @media (max-width: 640px) { .diagram-box { white-space: normal; max-width: 100%; } }   /* long boxes must wrap on phones */
+        /* FOptInf: keep long titles clear of the slide number on phones */
+        @media (max-width: 640px) { .slide h2 { padding-right: 3.6rem; } }
+        .sim-grid select, .sim-grid input[type="range"] { max-width: 100%; min-width: 0; }   /* long option labels must not spill into the next column */
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="series-label">Optical Technology for AI Processing &mdash; Presentation 03</div>
+    <h1>Where Optics Could <span class="accent">Win</span>, and the Limits</h1>
+    <p class="subtitle">Putting decks 01 and 02 to work: the conditions under which optical arithmetic beats digital, a map of where it wins, which AI operations fit, memory and Amdahl, precision for inference and training, the scaling argument for very large models, and the niches (latency, sensing, transforms) where the case is strongest.</p>
+
+    <div class="tags">
+        <span class="tag">Win conditions</span>
+        <span class="tag">Amdahl</span>
+        <span class="tag">Memory wall</span>
+        <span class="tag">1/d scaling</span>
+        <span class="tag">Latency</span>
+        <span class="tag">Scorecard</span>
+    </div>
+
+    <div class="pipeline">
+        <span class="pipeline-step">Large N</span>
+        <span class="pipeline-arrow">+</span>
+        <span class="pipeline-step">Low precision</span>
+        <span class="pipeline-arrow">+</span>
+        <span class="pipeline-step">Static weights</span>
+        <span class="pipeline-arrow">+</span>
+        <span class="pipeline-step">High utilisation</span>
+        <span class="pipeline-arrow">=</span>
+        <span class="pipeline-step">a chance</span>
+    </div>
+</header>
+
+<section class="slide" id="slide-00">
+    <div class="slide-number">00</div>
+    <h2>Topics We'll Cover</h2>
+    <ul class="contents-list">
+        <li><a href="#slide-01">A Caution to Start</a></li>
+        <li><a href="#slide-02">The Conditions for a Win</a></li>
+        <li><a href="#slide-03">Interactive: Where Optics Wins</a></li>
+        <li><a href="#slide-04">Which AI Operations Fit</a></li>
+        <li><a href="#slide-05">Memory and Amdahl</a></li>
+        <li><a href="#slide-06">Precision for Inference and for Training</a></li>
+        <li><a href="#slide-07">The Scaling Argument: 1/d</a></li>
+        <li><a href="#slide-08">Latency Niches</a></li>
+        <li><a href="#slide-09">When the Data Is Already Light</a></li>
+        <li><a href="#slide-10">Transforms, Convolutions and Encryption</a></li>
+        <li><a href="#slide-11">A Scorecard</a></li>
+        <li><a href="#slide-12">What to Take Away</a></li>
+    </ul>
+    <div class="concepts">
+        <p><strong>Concepts used here, and where they are explained.</strong> Each links to a glossary entry: this <a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#glossary">series glossary</a>, or the glossaries of Fourier Optics for Inference and Training, Silicon Photonics Fundamentals and other sister series for concepts they already explain.</p>
+        <div class="chips"><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-winconditions" title="Large matrices, low precision, static reused weights, low static power, high utilisation and weights held near the optics. Analyses place the photonic advantage at N &gt; 500 and noise precision of 4 bits or fewer.">Conditions for an optical win</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-memorywall" title="A DRAM access costs thousands of digital MACs, so an optical engine that makes MACs cheap but still fetches its weights saves little. Optical engines must be weight-stationary, and large models must be tiled and reloaded.">Memory wall for optical compute</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-oneoverd" title="In an optical Transformer, optical energy per MAC falls as 1/d with model width d, because conversions and photons are shared by more MACs. Anderson et al. project about 100× for the largest current Transformers and over 8,000× at a quadrillion parameters (modelled, not measured).">1/d scaling of optical energy</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-latencyniche" title="Problems where the time for light to cross a chip matters: iterative solvers looping through one matrix (Ising problems at up to 1 GHz and 3 ns per cycle), control and signal processing, and sub-nanosecond classification.">Latency niches</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-scorecard" title="This series&#x27; judgement by workload: strongest for vision on light that arrives optically, plausible for CNN inference and iterative solvers, conditional on memory for LLM projections, poor for attention and hardest for training.">Optical AI scorecard</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-reuse" title="An N × N matrix–vector product is N2 MACs for 2N conversions, so each conversion is shared by N/2 MACs and converter energy per MAC falls as 1/N. Weights that change for every vector lose this reuse.">Reuse: MACs per conversion</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-photonfloor" title="Shot noise falls as 1/√n with n detected photons, so matching the quantisation noise of an E-bit converter needs about 3·4E photons per detection: about 200,000 (25 fJ at 1550 nm) at 8 bits. Each extra bit quadruples it.">The photon floor</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-staticperweight" title="Power drawn to hold a weight whether or not it computes, costing P/f per use at vector rate f: 1 mW at 1 GHz is 1 pJ per MAC, more than an 8-bit digital MAC at 45 nm.">Static power per weight</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-digitalmac" title="The yardstick: about 0.2 pJ for an 8-bit multiply and 0.03 pJ for an add at 45 nm, against 10 pJ for a 64-bit SRAM access and 1.3–2.6 nJ for a DRAM access (Horowitz). An H100 at peak dense FP8 is about 0.7 pJ per MAC at board level.">Digital MAC energy</a><a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#g-diffractive" title="Stacks of engineered diffractive layers whose pixels are the weights; light passing through computes a fixed linear network. Strongest on vision, where the input is already light: ACCEL and Taichi report peta-operation and 160 TOPS/W figures by their own definitions.">Diffractive networks</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/#g-opticalshare" title="The fraction f of prefill FLOPs a transform engine could take over (FFTs plus Fourier-plane multiplies). If it became free, prefill would speed up by at most 1/(1−f); for a Hyena-2 model of Llama-3-8B&#x27;s shape f is 0.20% at 2,048 tokens.">Optical share and the Amdahl bound</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/#g-floatenob" title="For float workloads the analogue chain must match the number format&#x27;s own rounding error, not be exact. Relative RMS error = crest × 2−ENOB × 2/√12; matching BF16 needs about 10.3 ENOB, INT8 8.0, FP8 E4M3 6.3. FHE&#x27;s exact-rounding rule does not transfer to long convolutions.">The noise rule for floating-point workloads</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-masked" title="A Fourier-domain product whose second operand is a weight spectrum (forward H, backward conj(H)) can be a mask written once per optimizer step. One whose operands both depend on the sample (conj(U)·G for the weight gradient) needs a new mask for every sequence, and in practice stays digital.">Weight-masked and data-by-data products</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-gradprecision" title="Training keeps activations and weights in BF16 or FP8 E4M3 and gradients in FP8 E5M2, which trades mantissa for range. Applying the inference series&#x27; noise rule, matching E5M2 needs about 5.3–5.8 ENOB and BF16 about 10.3–10.7, higher for spiky gradients whose crest factor is larger.">Gradient precision and FP8 E5M2</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-maskrewrite" title="An inference engine writes its filter spectra once; a training engine must rewrite them after every optimizer step, for the forward and the backward pass. Processing the whole step layer by layer amortises each write over every sequence, but the frame budget still rivals the digital step time.">Mask rewrites per optimizer step</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-noisereg" title="Zero-mean read-out noise in the forward pass acts like injected noise, which training can tolerate or even exploit; noise in the gradient adds to minibatch noise. Biased errors (offset, nonlinearity, drift) do not average out and must be calibrated.">Analogue noise in a training loop</a><a href="https://brendanjameslynskey.github.io/LLM_Hub_Compute_in_Transit/#g-module" title="A QSFP56 pluggable with an integrated optical Fourier transform device, reported to run FFT, NTT, MAC, and modular and floating-point arithmetic on link traffic at “tens of GFLOPs” (the authors&#x27; claim, evaluated on CKKS bootstrapping; arXiv:2608.21536).">Photonic link module</a></div>
+    </div>
+</section>
+
+<section class="slide" id="slide-01">
+    <div class="slide-number">01</div>
+    <h2>A Caution to Start</h2>
+    <p>McMahon's review of the physics of optical computing argues that &ldquo;the speed of light is not a key differentiating physical property of optics for computing&rdquo;, and sets out eleven features of optics (parallelism, passive linear operations, low-loss data movement and others) from which an advantage could be built, if a design uses several of them and avoids the costs of conversion and precision (<a href="https://doi.org/10.1038/s42254-023-00645-5">Nat. Rev. Phys. 5, 717, 2023</a>; <a href="https://arxiv.org/abs/2308.00088">arXiv:2308.00088</a>).</p>
+    <ul>
+        <li><strong>So the question is never &ldquo;is light fast?&rdquo;</strong> but whether, for a given workload, the energy saved inside the optics exceeds the energy spent converting into and out of it, holding weights in it, and keeping it busy.</li>
+        <li><strong>The Fourier Optics series asked that question</strong> for Fourier engines in LLM inference and training and found the answer mostly negative (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/">Fourier Optics for Inference</a>; <a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/">for Training</a>). This deck asks it for general optical matrix multiplication, which covers far more of the work.</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-02">
+    <div class="slide-number">02</div>
+    <h2>The Conditions for a Win</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Condition</th><th>Why</th><th>Where it was shown</th></tr>
+        <tr><td>Large matrices</td><td>Each conversion is shared by N MACs</td><td><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-01">OptAI 02, slide 01</a>; N &gt; 500 in Nahmias et al.</td></tr>
+        <tr><td>Low precision</td><td>Converter energy doubles and photon count quadruples per bit</td><td><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-05">OptAI 02, slide 05</a>; &le; 4 bits in Nahmias et al.</td></tr>
+        <tr><td>Static, reused weights</td><td>Changing weights costs a conversion per weight</td><td><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-01">OptAI 02, slide 01</a></td></tr>
+        <tr><td>Low static power per weight</td><td>Paid at every use; 1 mW at 1 GHz is 1 pJ per MAC</td><td><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-08">OptAI 02, slide 08</a></td></tr>
+        <tr><td>High utilisation</td><td>Lasers and bias burn power when idle</td><td><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-08">OptAI 02, slide 08</a></td></tr>
+        <tr><td>Weights near the optics</td><td>Fetching weights from DRAM costs more than the MACs save</td><td><a href="#slide-05">slide 05</a></td></tr>
+    </table>
+    </div>
+    <p>Nahmias et al. summarise the first two: photonic MACs have their advantages for large processors, large vector sizes (N &gt; 500) and low noise precision (&le; 4 bits) (<a href="https://doi.org/10.1109/JSTQE.2019.2941485">IEEE JSTQE 26, 2020</a>). The interactive on the next slide maps the first two conditions directly.</p>
+</section>
+
+<section class="slide" id="slide-03">
+    <div class="slide-number">03</div>
+    <h2>Interactive: Where Optics Wins</h2>
+    <p>Every cell is the energy-per-MAC model of <a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-06">OptAI 02</a> at one matrix size and precision, compared with a digital reference. Green cells beat it, orange cells lose. <strong>The ADC figure of merit (with the DAC at half of it), laser efficiency, static power and reuse are illustrative inputs</strong>; the default digital reference is Horowitz's 8-bit MAC at 45 nm (<a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-11">OptAI 02, slide 11</a>).</p>
+    <div class="control-panel">
+        <div class="sim-grid">
+            <div class="control-row"><label for="wm-fadc">ADC FoM (fJ/step)</label><input type="range" id="wm-fadc" min="1" max="100" step="1" value="20"><span class="val" id="wm-fadc-val">20</span></div>
+            <div class="control-row"><label for="wm-wpe">Laser WPE (%)</label><input type="range" id="wm-wpe" min="2" max="40" step="1" value="10"><span class="val" id="wm-wpe-val">10</span></div>
+            <div class="control-row"><label for="wm-ps">Static per weight (mW)</label><input type="range" id="wm-ps" min="0" max="2" step="0.01" value="0"><span class="val" id="wm-ps-val">0.00</span></div>
+            <div class="control-row"><label for="wm-b">Weights reloaded</label><select id="wm-b"><option value="static" selected>never (static)</option><option value="256">every 256 vectors</option><option value="16">every 16 vectors</option><option value="1">every vector</option></select></div>
+            <div class="control-row"><label for="wm-dig">Digital (pJ/MAC)</label><input type="range" id="wm-dig" min="0.01" max="2" step="0.01" value="0.23"><span class="val" id="wm-dig-val">0.23</span></div>
+            <div class="control-row"><label for="wm-n">Marker: N (log2)</label><input type="range" id="wm-n" min="3" max="12" step="1" value="7"><span class="val" id="wm-n-val">128</span></div>
+            <div class="control-row"><label for="wm-e">Marker: ENOB</label><input type="range" id="wm-e" min="2" max="14" step="1" value="8"><span class="val" id="wm-e-val">8</span></div>
+        </div>
+        <div class="metric-grid">
+            <div class="metric"><div class="metric-label">At the marker</div><div class="metric-value" id="wm-pt">&mdash;</div></div>
+            <div class="metric"><div class="metric-label">Share of map that wins</div><div class="metric-value" id="wm-share">&mdash;</div></div>
+        </div>
+        <div class="canvas-wrap" style="padding:0.4rem;"><canvas id="wm-canvas" width="840" height="380"></canvas></div>
+        <p id="wm-note" style="font-size:0.85rem; margin-top:0.4rem;"></p>
+    </div>
+    <p style="font-size:0.85rem;">Try: set the digital reference to 0.05 pJ (a newer node), or a static power of 0.1 mW per weight, and watch the green region shrink; set weights to reload every vector, as attention scores do, and it retreats to the lowest precisions. The model's limits are listed under <a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-06">OptAI 02's interactive</a>; memory is not in it (<a href="#slide-05">slide 05</a>).</p>
+        <style>@media (max-width: 640px) { .sim-grid .control-row label { min-width: 0; flex-basis: 100%; } .sim-grid .control-row input[type="range"] { min-width: 0; } }</style>
+    <script>
+    (function(){
+        // Energy per multiply-accumulate of an optical matrix-vector engine (all energies in pJ per MAC)
+        const OM = (function () {
+            const H = 6.62607015e-34, C = 299792458;
+            // p: N (matrix size), E (ENOB), fdac, fadc (Walden FoM, fJ per conversion step), wpe (0..1), loss (dB),
+            //    lam (µm), B (vectors per weight load; Infinity = static weights), ps (static power per weight cell, mW), f (vector rate, GHz)
+            function energy(p) {
+                const steps = Math.pow(2, p.E);
+                const dac = p.fdac * 1e-3 * steps / p.N;                         // one input conversion per N MACs
+                const adc = p.fadc * 1e-3 * steps / p.N;                         // one output conversion per N MACs
+                const wload = isFinite(p.B) ? p.fdac * 1e-3 * steps / p.B : 0;   // each weight rewritten once per B vectors
+                const photons = 3 * Math.pow(4, p.E);                            // shot-noise floor: 1/sqrt(n) at the quantisation noise of E bits
+                const ephot = H * C / (p.lam * 1e-6);
+                const laser = photons * ephot * Math.pow(10, p.loss / 10) / p.wpe / p.N * 1e12;
+                const stat = p.ps * 1e-3 / (p.f * 1e9) * 1e12;                  // each weight cell used once per vector
+                const total = dac + adc + wload + laser + stat;
+                return { dac, adc, wload, laser, stat, total, photons };
+            }
+            return { energy };
+        })();
+        const $ = id => document.getElementById(id);
+        const g = id => +$(id).value;
+        const ids = ['wm-fadc', 'wm-wpe', 'wm-ps', 'wm-dig', 'wm-n', 'wm-e'];
+        function params(N, E) { const b = $('wm-b').value;
+            return { N, E, fdac: g('wm-fadc') / 2, fadc: g('wm-fadc'), wpe: g('wm-wpe') / 100, loss: 3, lam: 1.55, B: b === 'static' ? Infinity : +b, ps: g('wm-ps'), f: 1 }; }
+        function col(v) {   // log10(digital / optical): green above zero, orange below
+            const t = Math.max(-2, Math.min(2, v)) / 2;
+            return t >= 0 ? 'rgb(' + Math.round(35 + t * (170 - 35)) + ',' + Math.round(30 + t * (189 - 30)) + ',' + Math.round(26 + t * (89 - 26)) + ')'
+                          : 'rgb(' + Math.round(35 - t * (222 - 35)) + ',' + Math.round(30 - t * (128 - 30)) + ',' + Math.round(26 - t * (90 - 26)) + ')';
+        }
+        function rec() {
+            ids.forEach(id => $(id + '-val').textContent = (+$(id).value).toFixed(id === 'wm-dig' || id === 'wm-ps' ? 2 : 0));
+            $('wm-n-val').textContent = Math.round(Math.pow(2, g('wm-n')));
+            const dig = g('wm-dig'), c = $('wm-canvas'), ctx = c.getContext('2d'), W = c.width, H = c.height, P = { l: 70, r: 14, t: 14, b: 46 };
+            ctx.fillStyle = '#231e1a'; ctx.fillRect(0, 0, W, H);
+            const nx = 40, ny = 13, cw = (W - P.l - P.r) / nx, ch = (H - P.t - P.b) / ny;
+            let win = 0;
+            for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) {
+                const N = Math.pow(2, 3 + 9 * (i + 0.5) / nx), E = 2 + j;
+                const v = Math.log10(dig / OM.energy(params(N, E)).total); if (v > 0) win++;
+                ctx.fillStyle = col(v); ctx.fillRect(P.l + i * cw, H - P.b - (j + 1) * ch, cw + 0.5, ch + 0.5);
+            }
+            ctx.fillStyle = '#a2978b'; ctx.font = '13px "Geist Mono", monospace';
+            [8, 32, 128, 512, 2048].forEach(N => { const x = P.l + (Math.log2(N) - 3) / 9 * (W - P.l - P.r); ctx.fillText(N, x - 10, H - P.b + 18); });
+            [2, 4, 6, 8, 10, 12, 14].forEach(E => ctx.fillText(E, P.l - 26, H - P.b - (E - 1.5) * ch + 4));
+            ctx.fillText('matrix size N (log scale)', W / 2 - 90, H - 8);
+            ctx.save(); ctx.translate(16, H / 2 + 30); ctx.rotate(-Math.PI / 2); ctx.fillText('ENOB (bits)', 0, 0); ctx.restore();
+            const N0 = Math.round(Math.pow(2, g('wm-n'))), E0 = g('wm-e'), r0 = OM.energy(params(N0, E0));
+            const px = P.l + (Math.log2(N0) - 3) / 9 * (W - P.l - P.r), py = H - P.b - (E0 - 1.5) * ch;
+            ctx.strokeStyle = '#efe8dc'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(px, py, 7, 0, 2 * Math.PI); ctx.stroke();
+            $('wm-pt').textContent = (dig / r0.total >= 1 ? (dig / r0.total).toFixed(1) + '× better' : (r0.total / dig).toFixed(1) + '× worse');
+            $('wm-share').textContent = (100 * win / (nx * ny)).toFixed(0) + '%';
+            $('wm-note').innerHTML = 'Green: the optical engine uses less energy per MAC than the digital reference (' + dig.toFixed(2) + ' pJ); orange: more. Each cell is the model of <a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-06">OptAI 02</a> with the DAC at half the ADC’s figure of merit and 3 dB of optical loss. ' +
+                'The circle marks N = ' + N0 + ', ' + E0 + ' bits. Optics wins towards the bottom right: big matrices whose conversions are shared by many MACs, at low precision.';
+            window.wmState = { win: win / (nx * ny), ratio: dig / r0.total };
+        }
+        ['wm-b'].concat(ids).forEach(id => $(id).addEventListener('input', rec));
+        window.wmDemo = { set(o) { for (const [k, v] of Object.entries(o)) $(k).value = v; rec(); return window.wmState; } };
+        rec();
+    })();
+    </script>
+</section>
+
+<section class="slide" id="slide-04">
+    <div class="slide-number">04</div>
+    <h2>Which AI Operations Fit</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Operation</th><th>Optical fit</th><th>Why</th></tr>
+        <tr><td>Weight &times; activation matmuls (projections, MLP, convolutions)</td><td>Good</td><td>Static weights, reused over every token or batch element</td></tr>
+        <tr><td>Attention scores QK<sup>T</sup> and scores &times; V</td><td>Poor</td><td>Both operands are activations: the &ldquo;weights&rdquo; change every token, so every value needs a conversion (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-masked">data-by-data products</a>)</td></tr>
+        <tr><td>Softmax, normalisation, activations</td><td>Digital</td><td>Nonlinear, and small in FLOPs but on the critical path (<a href="https://brendanjameslynskey.github.io/OptAI_01_Optical_Computing_Map/#slide-10">OptAI 01, slide 10</a>)</td></tr>
+        <tr><td>Fourier transforms and long convolutions</td><td>Good, where they exist</td><td>A lens computes them in one pass; rare in LLMs (<a href="#slide-10">slide 10</a>)</td></tr>
+        <tr><td>Training's backward pass</td><td>Harder</td><td>Transposed weights, gradient precision, weight updates every step (<a href="#slide-06">slide 06</a>)</td></tr>
+    </table>
+    </div>
+    <ul>
+        <li><strong>Batching changes the picture:</strong> in a decode step with batch size 1, every weight is used once per token, so a weight-stationary optical engine's reuse must come from keeping weights in place across tokens; with larger batches or prefill, each weight serves many vectors.</li>
+        <li>The equivalent analysis for a Fourier engine, with its much smaller share, is <a href="https://brendanjameslynskey.github.io/FOptInf_02_Transforms_in_Inference_Workloads/#slide-06">FOptInf 02's Amdahl analysis</a>.</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-05">
+    <div class="slide-number">05</div>
+    <h2>Memory and Amdahl</h2>
+    <ul>
+        <li><strong>Data movement dominates digital AI energy.</strong> At 45 nm an 8-bit multiply costs 0.2 pJ, a 64-bit SRAM access 10 pJ and a 64-bit DRAM access 1.3&ndash;2.6 nJ (Horowitz, <a href="https://doi.org/10.1109/ISSCC.2014.6757323">ISSCC 2014</a>). Making the MAC cheaper changes little if the weights still arrive from DRAM.</li>
+        <li><strong>So optics must hold its weights</strong>, in phase-change cells or programmed phases, for long enough to use them many times: a weight-stationary design. Model sizes far exceed what one optical array holds, so large models are tiled, and every reload is a conversion per weight (the interactive's reload setting).</li>
+        <li><strong>Amdahl's law applies at system level:</strong> if a fraction f of the energy is optical MACs and they become free, total energy falls by at most f. With memory, nonlinearities and control left digital, f is well below 1 (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/#g-opticalshare">optical share and the Amdahl bound</a>).</li>
+        <li><strong>Architecture models say the same:</strong> Andrulis et al. find conversion and DRAM can take a significant portion of a photonic accelerator's energy (<a href="https://arxiv.org/abs/2405.07266">arXiv:2405.07266</a>); the classic survey of where accelerator energy goes is Sze et al. (<a href="https://doi.org/10.1109/JPROC.2017.2761740">Proc. IEEE 105, 2295, 2017</a>).</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-06">
+    <div class="slide-number">06</div>
+    <h2>Precision for Inference and for Training</h2>
+    <div class="diagram-grid cols-2">
+        <div class="diagram-panel accent-border">
+            <h4>Inference</h4>
+            <ul>
+                <li>INT8 and FP8 inference is standard; matching INT8's error needs about 8 ENOB (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/#g-floatenob">the noise rule</a>).</li>
+                <li>Some tasks tolerate far less: about 90% digit accuracy at about 0.66 photons per multiplication (Wang et al., <a href="https://doi.org/10.1038/s41467-021-27774-8">Nature Commun. 13, 123, 2022</a>).</li>
+                <li>Precision can vary by layer (Garg et al., <a href="https://arxiv.org/abs/2102.06365">arXiv:2102.06365</a>).</li>
+            </ul>
+        </div>
+        <div class="diagram-panel accent-border">
+            <h4>Training</h4>
+            <ul>
+                <li>Gradients span a wide dynamic range and need more precision than activations (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-gradprecision">gradient precision</a>).</li>
+                <li>Weights change every step, so an optical array would be rewritten each step (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-maskrewrite">mask rewrites per step</a>).</li>
+                <li>Analogue noise in training acts partly as regularisation, partly as error (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/#g-noisereg">analogue noise in a training loop</a>).</li>
+            </ul>
+        </div>
+    </div>
+    <p><strong>Inference is the easier target:</strong> lower precision, static weights and a forward pass only. Most of what the companies in <a href="https://brendanjameslynskey.github.io/OptAI_04_Landscape/">deck 04</a> describe is inference.</p>
+</section>
+
+<section class="slide" id="slide-07">
+    <div class="slide-number">07</div>
+    <h2>The Scaling Argument: 1/d</h2>
+    <p>Anderson et al. studied Transformer inference with optical matrix multiplication and modelled how its energy scales with model size. Their key finding is that &ldquo;optical energy per multiply-accumulate (MAC) scales as 1/d where d is the Transformer width&rdquo;: wider models share each conversion and each photon among more MACs (<a href="https://arxiv.org/abs/2302.10360">arXiv:2302.10360</a>; TMLR 2024).</p>
+    <div class="table-wrap">
+    <table>
+        <tr><th>What the paper projects</th><th>Against</th></tr>
+        <tr><td>About 100&times; energy advantage for some of the largest current Transformers (about 500 billion parameters)</td><td>Digital processors at 300 fJ/MAC</td></tr>
+        <tr><td>More than 8,000&times; for models of a quadrillion parameters</td><td>The same</td></tr>
+    </table>
+    </div>
+    <ul>
+        <li><strong>These are modelled projections, not measurements</strong>, and they rest on assumptions about converters, memory access and precision that the paper states; a further &gt;100,000&times; case assumes cheaper memory access, better conversion and 4-bit precision.</li>
+        <li><strong>The argument is the reuse argument</strong> of <a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-01">OptAI 02, slide 01</a> taken to model scale: if an optical array were as wide as the model, conversions per MAC would fall as 1/d. The practical limit is how wide an array can be built (<a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-09">OptAI 02, slide 09</a>), and whether weights can be held in it.</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-08">
+    <div class="slide-number">08</div>
+    <h2>Latency Niches</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Result</th><th>Latency</th><th>Source</th></tr>
+        <tr><td>On-chip photonic network classifying images</td><td>Under 570 ps</td><td>Ashtiani et al. (<a href="https://doi.org/10.1038/s41586-022-04714-0">Nature 606, 501, 2022</a>)</td></tr>
+        <tr><td>Three-layer network with on-chip nonlinearities</td><td>410 ps</td><td>Bandyopadhyay et al. (<a href="https://doi.org/10.1038/s41566-024-01567-z">Nature Photon. 18, 1335, 2024</a>)</td></tr>
+        <tr><td>Integrated photonic accelerator solving Ising problems, more than 16,000 photonic components, up to 1 GHz</td><td>As small as 3 ns per cycle</td><td>Hua et al., Lightelligence (<a href="https://doi.org/10.1038/s41586-025-08786-6">Nature 640, 361, 2025</a>)</td></tr>
+    </table>
+    </div>
+    <ul>
+        <li><strong>Where latency is worth paying for:</strong> iterative solvers that loop many times through one matrix (Ising and combinatorial optimisation), control loops, signal processing on data that arrives fast, and decisions that must be taken within a clock cycle or two.</li>
+        <li><strong>Large-model serving is rarely in this class:</strong> its latency is dominated by memory bandwidth and batching, not by the time light takes to cross a chip (<a href="https://brendanjameslynskey.github.io/LLM_Hub_Inference_Simulators/">LLM Inference Simulators</a>).</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-09">
+    <div class="slide-number">09</div>
+    <h2>When the Data Is Already Light</h2>
+    <ul>
+        <li><strong>Imaging and sensing skip the input conversion.</strong> A scene arrives as light, so a diffractive or photonic front-end processes it before any detector and need only digitise a compressed result. ACCEL reports 4.6 peta-operations per second, over 99% of them optical, 74.8 peta-operations per second per watt and 72 ns per frame on vision tasks (Chen et al., <a href="https://doi.org/10.1038/s41586-023-06558-8">Nature 623, 48, 2023</a>; the authors' figures).</li>
+        <li><strong>Data arriving over fibre</strong> can be computed on before detection: Netcast multiplied at 40 aJ per multiply at an edge device whose weights arrived over 86 km of deployed fibre (Sludds et al., <a href="https://arxiv.org/abs/2203.05466">arXiv:2203.05466</a>; Science, 2022). Compute on data in a link is the subject of <a href="https://brendanjameslynskey.github.io/LLM_Hub_Compute_in_Transit/">Compute in Transit</a>.</li>
+        <li><strong>Why this matters:</strong> removing the input DAC removes half of the conversion bill of <a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/#slide-07">OptAI 02, slide 07</a>, and the scene's own pixels give an enormous N for free.</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-10">
+    <div class="slide-number">10</div>
+    <h2>Transforms, Convolutions and Encryption</h2>
+    <ul>
+        <li><strong>Fourier transforms and convolutions</strong> are what a lens computes natively. For LLMs the Fourier Optics series found the transform share of prefill FLOPs small, even in FFT-mixing models (<a href="https://brendanjameslynskey.github.io/FOptInf_02_Transforms_in_Inference_Workloads/#slide-06">FOptInf 02</a>), and the simulated optical prefill pools broke even only under favourable assumptions (<a href="https://brendanjameslynskey.github.io/FOptInf_03_Optical_Prefill_Pools/#slide-09">FOptInf 03, the break-even point</a>).</li>
+        <li><strong>Convolutional vision networks</strong> are a better fit: convolution is the bulk of their work and their weights are small and static (Xu et al.'s 11 TOPS convolutional accelerator, <a href="https://brendanjameslynskey.github.io/OptAI_01_Optical_Computing_Map/#slide-08">OptAI 01, slide 08</a>).</li>
+        <li><strong>Fully homomorphic encryption</strong> spends much of its time in number-theoretic transforms, the finite-field cousin of the FFT; optical engines for it are analysed in <a href="https://brendanjameslynskey.github.io/FHESim_04_Optical_NTT_Engines/">FHESim 04, Optical NTT Engines</a>, where exact arithmetic makes the precision demands severe. A company working on this is in <a href="https://brendanjameslynskey.github.io/OptAI_04_Landscape/#slide-06">deck 04</a>.</li>
+    </ul>
+</section>
+
+<section class="slide" id="slide-11">
+    <div class="slide-number">11</div>
+    <h2>A Scorecard</h2>
+    <div class="table-wrap">
+    <table>
+        <tr><th>Workload</th><th>N and reuse</th><th>Precision</th><th>Weights</th><th>Verdict</th></tr>
+        <tr><td>Vision on light that arrives optically</td><td>Very large (pixels)</td><td>Low</td><td>Static</td><td><span class="badge ok">strongest case</span></td></tr>
+        <tr><td>CNN inference</td><td>Large</td><td>INT8 or lower</td><td>Static, small</td><td><span class="badge ok">plausible</span></td></tr>
+        <tr><td>Iterative solvers (Ising, optimisation)</td><td>One matrix, many passes</td><td>Low</td><td>Static per problem</td><td><span class="badge ok">plausible, latency-driven</span></td></tr>
+        <tr><td>LLM inference: projections and MLP</td><td>Large in prefill, batch-dependent in decode</td><td>INT8/FP8</td><td>Huge; must be tiled and reloaded</td><td><span class="badge warn">conditional on memory</span></td></tr>
+        <tr><td>LLM attention</td><td>Activation &times; activation</td><td>Higher</td><td>Change every token</td><td><span class="badge bad">poor</span></td></tr>
+        <tr><td>Training</td><td>Large</td><td>High for gradients</td><td>Change every step</td><td><span class="badge bad">hardest</span></td></tr>
+    </table>
+    </div>
+    <p>These verdicts are this series' engineering judgement from the conditions of <a href="#slide-02">slide 02</a> and the model of <a href="#slide-03">slide 03</a>, not measurements; <a href="https://brendanjameslynskey.github.io/OptAI_04_Landscape/">deck 04</a> sets them beside what companies say they have built.</p>
+</section>
+
+<section class="slide" id="slide-12">
+    <div class="slide-number">12</div>
+    <h2>What to Take Away</h2>
+    <ul>
+        <li><strong>Speed of light is not the advantage;</strong> shared conversions, passive linear operations and parallelism are, when a workload can use them.</li>
+        <li><strong>Optics wins at large N and low precision</strong> with static weights, low static power and high utilisation; the interactive shows how fast the winning region shrinks when any of these slips.</li>
+        <li><strong>Memory decides:</strong> a DRAM access costs thousands of MACs, so an optical engine must hold its weights; for large models that means tiling and reloads.</li>
+        <li><strong>Inference before training;</strong> weight &times; activation before attention.</li>
+        <li><strong>The scaling argument</strong> (energy per MAC as 1/d) projects 100&times; for today's largest Transformers and far more beyond, as a model, not a measurement.</li>
+        <li><strong>The clearest niches:</strong> data that is already light (vision, sensing, fibre), latency-bound iterative solvers, and convolution-heavy networks.</li>
+        <li><strong>Next:</strong> <a href="https://brendanjameslynskey.github.io/OptAI_04_Landscape/">deck 04</a> surveys who is building what, in their own words.</li>
+    </ul>
+</section>
+
+<!-- ════════════════════════════════════ Footer ════════════════════════════════════ -->
+<footer class="footer">
+    <p>Part of the <a href="https://github.com/BrendanJamesLynskey/Optical_Hub_AI_Processing">Optical Technology for AI Processing series</a> &middot; <a href="https://brendanjameslynskey.github.io/Optical_Hub_AI_Processing/#glossary">glossary: every concept and where it is explained</a> &middot; numbers: cited on each slide or computed live in the interactive</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;"><a href="https://brendanjameslynskey.github.io/OptAI_02_Optical_Matrix_Multiply/">&larr; 02 Optical Matrix Multiply: Precision and Conversions</a> &nbsp;&middot;&nbsp; <a href="https://brendanjameslynskey.github.io/OptAI_04_Landscape/">04 The Public Landscape &rarr;</a></p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">Sister series: <a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Inference/">Fourier Optics for Inference</a> &middot; <a href="https://brendanjameslynskey.github.io/LLM_Hub_Fourier_Optics_Training/">Fourier Optics for Training</a> &middot; <a href="https://brendanjameslynskey.github.io/Optical_Hub_Silicon_Photonics/">Silicon Photonics Fundamentals</a> &middot; <a href="https://brendanjameslynskey.github.io/Optical_Hub_Data_Centres/">Optical Technology for Data Centres</a> &middot; <a href="https://brendanjameslynskey.github.io/LLM_Hub_Compute_in_Transit/">Compute in Transit</a></p>
+</footer>
+
+<script>
+    // Smooth scroll for TOC links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // Subtle fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.slide').forEach(slide => {
+        slide.style.opacity = '0';
+        slide.style.transform = 'translateY(30px)';
+        slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(slide);
+    });
+</script>
+
+</body>
+</html>
